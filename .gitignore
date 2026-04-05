@@ -20,6 +20,7 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
+*.pyc
 
 # 虚拟环境 (如果你用了 venv)
 venv/
@@ -36,3 +37,12 @@ ENV/
 # 系统文件
 .DS_Store
 Thumbs.db
+
+# 日志文件
+*.log
+
+# 数据文件（如果数据是生成的，不是源数据）
+# 注意：students.xlsx 是源数据，要保留；但 top_students_result.xlsx 是生成的，建议忽略
+top_students_result.xlsx
+!students.xlsx
+*.xlsx
