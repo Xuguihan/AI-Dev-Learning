@@ -43,6 +43,8 @@ Thumbs.db
 
 # 数据文件（如果数据是生成的，不是源数据）
 # 注意：students.xlsx 是源数据，要保留；但 top_students_result.xlsx 是生成的，建议忽略
-top_students_result.xlsx
+# 1. 忽略所有以 _result.xlsx 结尾的文件
+*_result.xlsx
+
+# 2. 但是（!）不要忽略 students.xlsx
 !students.xlsx
-*.xlsx
