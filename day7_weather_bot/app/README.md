@@ -17,8 +17,7 @@
 ## 📦 快速开始
 
 1. 安装依赖：
-   ```bash
-   pip install fastapi uvicorn openai chromadb sentence-transformers python-dotenv
+   pip install -r requirements.txt
 2. 配置环境变量：
    DASHSCOPE_API_KEY=sk-xxxxxxxxxxxx
 3. 初始化数据库：
@@ -27,7 +26,10 @@
    uvicorn app.main:app --reload
 
 ## 项目结构
-**main.py**: API 入口与路由
-**data_service.py**: 数据库操作
-**llm_service.py**: AI 逻辑与 Prompt 工程
-**chroma_db/**: 向量数据库存储目录
+app/
+├── frontend/       # 前端页面
+├── main.py         # API 入口
+├── data_service.py # 数据层 (SQLite)
+├── llm_service.py  # 逻辑层 (LLM + RAG)
+├── chroma_db/      # 向量数据库
+└── weather.db      # 关系型数据库
