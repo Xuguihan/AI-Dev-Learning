@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 天气助手</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; background-color: #f0f2f5; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .card { background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); width: 350px; text-align: center; }
+        input { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; }
+        button { background-color: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; width: 100%; font-size: 16px; }
+        button:hover { background-color: #0056b3; }
+        #result { margin-top: 20px; text-align: left; background: #f8f9fa; padding: 15px; border-radius: 8px; display: none; }
+        .loading { color: #666; font-size: 0.9em; margin-top: 10px; display: none; }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <h2>🌤️ AI 天气助手</h2>
+        <input type="text" id="cityInput" placeholder="请输入城市名 (例如: Beijing)" value="Beijing">
+        <button onclick="getWeather()">查询天气</button>
+        
+        <div class="loading" id="loading">AI 正在思考中...</div>
+
+        <div id="result">
+            <h3 id="cityName"></h3>
+            <p><strong>温度:</strong> <span id="temp"></span></p>
+            <p><strong>天气:</strong> <span id="condition"></span></p>
+            <hr>
+            <p><strong>🤖 AI 建议:</strong></p>
+            <p id="advice" style="color: #d9534f; font-weight: bold;"></p>
+        </div>
+    </div>
+
+    <script>
+        async function getWeather() {
+            const city = document.getElementById('cityInput').value;
+            const resultDiv = document.getElementById('result');
+            const loadingDiv = document.getElementById('loading');
+            
+            // 重置界面
+            resultDiv.style.display = 'none';
+            loadingDiv.style.display = 'block';
+
+            try {
+                // 这里的 URL 必须是你 FastAPI 运行的地址
+                const response = await fetch('http://127.0.0.1:8000/get_weather', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ "city_name": city })
+                });
+
+                const data = await response.json();
+
+                // 填充数据到页面
+                document.getElementById('cityName').innerText = data.city;
+                document.getElementById('temp').innerText = data.temperature;
+                document.getElementById('condition').innerText = data.condition;
+                document.getElementById('advice').innerText = data.ai_advice;
+
+                resultDiv.style.display = 'block';
+            } catch (error) {
+                alert("连接失败！请确保 FastAPI 正在运行。");
+                console.error(error);
+            } finally {
+                loadingDiv.style.display = 'none';
+            }
+        }
+    </script>
+
+</body>
+</html>
